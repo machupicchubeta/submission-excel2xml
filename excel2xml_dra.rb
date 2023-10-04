@@ -17,6 +17,7 @@ require 'date'
 # 2022-12-14 version 1.5 DRA separated
 # 2023-02-09 version 1.92 Run title
 # 2023-09-04 version 2.0 Analysis support
+# 2023-10-04 version 2.1 xsd 1.6.0
 #
 
 # Options
@@ -481,6 +482,11 @@ unless analysis_only
 							platform_e.INSTRUMENT_MODEL(exp[8])
 						}
 
+          when "unspecified"
+						platform.ILLUMINA{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
 					when /solid/i
 						platform.ABI_SOLID{|platform_e|
 							platform_e.INSTRUMENT_MODEL(exp[8])
@@ -500,11 +506,18 @@ unless analysis_only
 						platform.PACBIO_SMRT{|platform_e|
 							platform_e.INSTRUMENT_MODEL(exp[8])
 						}
-					when /Sequel/
+
+          when /Sequel/
 						platform.PACBIO_SMRT{|platform_e|
 							platform_e.INSTRUMENT_MODEL(exp[8])
 						}
-					when /ION/
+
+          when "Onso", "Revio"
+						platform.PACBIO_SMRT{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
+          when /ION/
 						platform.OXFORD_NANOPORE{|platform_e|
 							platform_e.INSTRUMENT_MODEL(exp[8])
 						}
@@ -523,8 +536,43 @@ unless analysis_only
 							platform_e.INSTRUMENT_MODEL(exp[8])
 						}
 
-					when /bgiseq|dnbseq|mgiseq/i
+					when /bgiseq|mgiseq/i
 						platform.BGISEQ{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
+          when /dnbseq/i
+						platform.DNBSEQ{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
+          when /Element/
+						platform.ELEMENT{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
+          when "UG 100"
+						platform.ULTIMA{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
+          when "GENIUS", "Genapsys Sequencer", "GS111"
+						platform.GENAPSYS{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
+          when "GenoCare 1600", "GenoLab M", "FASTASeq 300"
+						platform.GENEMIND{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
+          when "Tapestri"
+						platform.TAPESTRI{|platform_e|
+							platform_e.INSTRUMENT_MODEL(exp[8])
+						}
+
+          when "Sentosa SQ301"
+						platform.VELA_DIAGNOSTICS{|platform_e|
 							platform_e.INSTRUMENT_MODEL(exp[8])
 						}
 
